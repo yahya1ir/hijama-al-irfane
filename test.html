@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reviews Test</title>
+</head>
+<body>
+
+  <h1>Reviews Test</h1>
+  <button onclick="fetchReviews()">Load Reviews</button>
+
+  <pre id="output">Click button to load data...</pre>
+
+  <script>
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbwdu0MOfB3KoNa7eHaNah9yi5TJrFZrVrDGpOnBtez8F1jS6phZYrit9SsJcRjTxul0ug/exec";
+
+    async function fetchReviews() {
+      const output = document.getElementById("output");
+      output.textContent = "Loading...";
+
+      try {
+        const res = await fetch(SHEET_URL + "?t=" + Date.now());
+        const data = await res.json();
+
+        console.log("FULL RESPONSE:", data);
+
+        output.textContent = JSON.stringify(data, null, 2);
+
+      } catch (err) {
+        console.error(err);
+        output.textContent = "ERROR: " + err;
+      }
+    }
+  </script>
+
+</body>
+</html>
